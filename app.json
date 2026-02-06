@@ -1,0 +1,23 @@
+{
+  "expo": {
+    "name": "Herea-Lucrari",
+    "slug": "Herea-Lucrari",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "_comment": "NewArchEnabled: true,",
+    "android": {
+      "permissions": [
+        "INTERNET",
+        "INTERNET"
+      ],
+      "package": "com.anonymous.HereaLucrari"
+    },
+    "plugins": [
+      "expo-secure-store"
+    ]
+  }
+}
