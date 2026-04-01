@@ -5,6 +5,8 @@ import Screen from "../../components/Screen";
 import { AppForm, AppFormField, SubmitButton } from "../../components/forms";
 import { createNewOrder } from "../../network/orders";
 
+import AppFormDatePicker from "../../components/forms/AppFormDatePicker";
+
 const validationSchema = Yup.object().shape({
   id: Yup.number(),
   title: Yup.string().min(5).max(50).required(),
@@ -16,7 +18,7 @@ function NewOrderScreen({ navigation, route }) {
   const orderInitialValues = {
     id: "",
     title: "",
-    date_in: new Date().toISOString().slice(0, 10),
+    date_in: new Date(),
     price_factor: "",
     emergency_factor: "",
   };
@@ -31,7 +33,7 @@ function NewOrderScreen({ navigation, route }) {
     } else if (response.status == 201) navigation.navigate("Orders Screen");
   };
   return (
-    <Screen style={styles.container}>
+    <Screen>
       <AppForm
         initialValues={orderInitialValues}
         onSubmit={(values) => handleNewOrder(values)}
@@ -41,7 +43,7 @@ function NewOrderScreen({ navigation, route }) {
           autoCorrect={false}
           keyboardType="numeric"
           icon="credit-card-search"
-          placeholder="ID-autocompletat"
+          placeholder="ID - autocompletat"
           name="id"
         />
         <AppFormField
@@ -50,12 +52,8 @@ function NewOrderScreen({ navigation, route }) {
           placeholder="Titlu"
           name="title"
         />
-        <AppFormField
-          autoCorrect={false}
-          icon="calendar"
-          placeholder="Data de intrare"
-          name="date_in"
-        />
+        <AppFormDatePicker name="date_in" icon="calendar" />
+
         <AppFormField
           autoCorrect={false}
           icon="card-text"
@@ -76,6 +74,7 @@ function NewOrderScreen({ navigation, route }) {
           placeholder="Factor de urgenta, std:1"
           name="emergency_factor"
         />
+
         <SubmitButton title="Creaza comanda" />
       </AppForm>
     </Screen>

@@ -8,6 +8,7 @@ import ProcedureTitleCard from "../../components/ProcedureTitleCard";
 import AppText from "../../components/AppText";
 import colors from "../../config/colors";
 import TypeLabel from "../../components/TypeLabel";
+import Screen from "../../components/Screen";
 
 function CompletedItemsDetailsScreen({ navigation, route }) {
   const [itemProcedures, setItemProcedures] = useState([]);
@@ -32,7 +33,7 @@ function CompletedItemsDetailsScreen({ navigation, route }) {
   );
 
   return (
-    <ScreenNoScrollView style={{ paddingTop: 2 }}>
+    <Screen>
       <View style={styles.detailsContainer}>
         <TypeLabel
           type={route.params.type}
@@ -94,10 +95,10 @@ function CompletedItemsDetailsScreen({ navigation, route }) {
         <AppText
           style={{ paddingTop: 20, paddingBottom: 20, textAlign: "center" }}
         >
-          Nicio procedura pentru acest articol deocamdata
+          Nicio procedura pentru acest articol
         </AppText>
       )}
-    </ScreenNoScrollView>
+    </Screen>
   );
 }
 

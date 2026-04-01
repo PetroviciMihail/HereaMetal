@@ -1,7 +1,7 @@
 import React, { useCallback, useState } from "react";
 import { View, StyleSheet, FlatList, Alert } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import ScreenNoScrollView from "../../components/ScreenNoScrollView";
+
 import AppButton from "../../components/AppButton";
 import { getProceduresForItemId } from "../../network/procedures";
 import ProcedureTitleCard from "../../components/ProcedureTitleCard";
@@ -10,6 +10,7 @@ import colors from "../../config/colors";
 import TypeLabel from "../../components/TypeLabel";
 import DeleteButton from "../../components/DeleteButton";
 import { deleteItem } from "../../network/items";
+import Screen from "../../components/Screen";
 
 function ItemDetailsScreen({ navigation, route }) {
   //folosit din route.params: id de item, type, id de order, title, details, size-factor
@@ -21,10 +22,8 @@ function ItemDetailsScreen({ navigation, route }) {
       Alert.alert("Eroare server: ", err);
     } else {
       console.log(response.data);
-      let updatedData = response.data.sort(
-        (a, b) => a.rank_index - b.rank_index,
-      );
-      setItemProcedures(updatedData);
+
+      setItemProcedures(response.data);
     }
   };
 
@@ -48,7 +47,18 @@ function ItemDetailsScreen({ navigation, route }) {
   };
 
   return (
-    <ScreenNoScrollView style={{ paddingTop: 2 }}>
+    <Screen
+      footer={
+        <AppButton
+          title="Adauga procedura noua"
+          onPress={() =>
+            navigation.navigate("Procedure Titles Pick Screen", {
+              ...route.params,
+            })
+          }
+        />
+      }
+    >
       <View style={styles.detailsContainer}>
         <View
           style={{
@@ -113,18 +123,10 @@ function ItemDetailsScreen({ navigation, route }) {
         <AppText
           style={{ paddingTop: 20, paddingBottom: 20, textAlign: "center" }}
         >
-          Nicio procedura pentru acest articol deocamdata
+          Nicio procedura adaugata pentru acest articol
         </AppText>
       )}
-      <AppButton
-        title="Adauga procedura noua"
-        onPress={() =>
-          navigation.navigate("Procedure Titles Pick Screen", {
-            ...route.params,
-          })
-        }
-      />
-    </ScreenNoScrollView>
+    </Screen>
   );
 }
 
@@ -132,7 +134,6 @@ const styles = StyleSheet.create({
   detailsContainer: {
     backgroundColor: colors.coldWhite,
     padding: 5,
-
     borderRadius: 5,
     elevation: 3,
     margin: 5,

@@ -8,7 +8,7 @@ import Screen from "../../components/Screen";
 
 function ProceduresPickScreen({ navigation, route }) {
   console.log(
-    "  Procedure Pick Screen route.params ----------------------------------------"
+    "  Procedure Pick Screen route.params ----------------------------------------",
   );
   console.log(route.params);
   const [procedureTitles, setProcedureTitles] = useState([]);
@@ -30,17 +30,22 @@ function ProceduresPickScreen({ navigation, route }) {
 
   return (
     <>
-      <Screen style={styles.container}>
+      <Screen>
         <FlatList
           data={procedureTitles}
           renderItem={({ item }) => (
             <ProcedureTitleCard
               onPress={() =>
                 navigation.navigate("New Procedure Screen", {
+                  order_id: route.params.order_id,
+                  procedure_title: item.title,
                   procedure_title_id: item.id,
                   item_id: route.params.id,
+                  item_title: route.params.title,
                   base_price: item.base_price,
                   size_factor: route.params.size_factor,
+                  price_instructions: item.price_instructions,
+                  details: item.details,
                 })
               }
               title={item.title}
@@ -56,8 +61,6 @@ function ProceduresPickScreen({ navigation, route }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { paddingTop: 2 },
-});
+const styles = StyleSheet.create({});
 
 export default ProceduresPickScreen;

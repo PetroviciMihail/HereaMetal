@@ -10,6 +10,7 @@ import { getItemsForOrderId } from "../../network/items";
 import colors from "../../config/colors";
 import { completeOrder, deleteOrder } from "../../network/orders";
 import DeleteButton from "../../components/DeleteButton";
+import Screen from "../../components/Screen";
 
 function OrderDetailsScreen({ navigation, route }) {
   // folosit din route.params: id, client_name, title, details, emergency factor, price factor, date_in, proceduresz_total, procedures_done
@@ -34,7 +35,7 @@ function OrderDetailsScreen({ navigation, route }) {
     } else {
       console.log(response.data);
       const allComplete =
-        response.data.lenght &&
+        response.data.length &&
         response.data.every(
           (item) =>
             item.procedures_done === item.procedures_total &&
@@ -82,104 +83,104 @@ function OrderDetailsScreen({ navigation, route }) {
   );
 
   return (
-    <View style={styles.container}>
-      <ScrollView
-        contentContainerStyle={{
-          flexGrow: 1,
-        }}
-      >
-        <View style={styles.detailsContainer}>
-          <View style={{ flexDirection: "row", alignItems: "center" }}>
-            <AppText style={{ color: colors.blueish_black, flex: 5 }}>
-              ID de comanda: {route.params.id}
-            </AppText>
-            <DeleteButton
-              onPress={handleDeleteOrder}
-              alertMessage={"Sigur vrei sa stergi comanda in totalitate?"}
-            />
-          </View>
-          <AppText style={{ color: colors.pinkish_black }}>
-            Titlu:
-            <AppText
-              style={{
-                fontWeight: "bold",
-                color: colors.pinkish_black,
-                fontSize: 30,
-              }}
-            >
-              {" "}
-              {route.params.title}
-            </AppText>
-          </AppText>
-
-          <AppText>Detalii: {route.params.details}</AppText>
-          <View
-            style={{ height: 1, backgroundColor: colors.primary, margin: 5 }}
+    <Screen
+      footer={
+        <View style={{ flexDirection: "row", gap: 10 }}>
+          <AppButton
+            style={{ flex: 1 }}
+            title="Adauga articol nou"
+            onPress={() =>
+              navigation.navigate("New Item Screen", {
+                orderId: route.params.id,
+              })
+            }
           />
-          <AppText>Adaugata la : {route.params.date_in.slice(0, 10)}</AppText>
-          <AppText style={styles.factortext}>
-            Factor de urgenta: {route.params.emergency_factor} (+zile)
-          </AppText>
-          <AppText style={styles.factortext}>
-            Factor de pret: {route.params.price_factor} (sugestie)
-          </AppText>
-          <AppText style={styles.factortext}>
-            Importanta client: {route.params.importance - 1} (+zile in
-            asteptare)
-          </AppText>
-        </View>
-        <AppText style={styles.middleText}>CLIENT:</AppText>
-        <ClientCard
-          name={client.name}
-          phone={client.phone}
-          email={client.email}
-          fiscal_code={client.fiscal_code}
-          details={client.details}
-        />
-
-        <AppText style={styles.middleText}> ARTICOLE:</AppText>
-        <FlatList
-          data={items}
-          renderItem={({ item }) => (
-            <ItemCard
-              type={item.type}
-              title={item.title}
-              details={item.details}
-              proceduresTotal={item.procedures_total}
-              proceduresDone={item.procedures_done}
+          {allCompleted && (
+            <AppButton
+              style={{
+                flex: 1,
+                backgroundColor: colors.buttonBackGroundSecondary,
+              }}
+              title="Finalizeaza Comanda"
+              alertMessage="Confirma finalizarea intregii comenzi"
               onPress={() => {
-                navigation.navigate("Item Details Screen", { ...item });
+                handleFinishOrder();
               }}
             />
           )}
-          keyExtractor={(item) => item.id}
-        />
-      </ScrollView>
-      <View style={{ flexDirection: "row", gap: 10 }}>
-        <AppButton
-          style={{ flex: 1 }}
-          title="Adauga articol nou"
-          onPress={() =>
-            navigation.navigate("New Item Screen", {
-              orderId: route.params.id,
-            })
-          }
-        />
-        {allCompleted && (
-          <AppButton
+        </View>
+      }
+    >
+      <View style={styles.detailsContainer}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <AppText style={{ color: colors.blueish_black, flex: 5 }}>
+            ID de comanda: {route.params.id}
+          </AppText>
+          <DeleteButton
+            onPress={handleDeleteOrder}
+            alertMessage={"Sigur vrei sa stergi comanda in totalitate?"}
+          />
+        </View>
+        <AppText style={{ color: colors.pinkish_black }}>
+          Titlu:
+          <AppText
             style={{
-              flex: 1,
-              backgroundColor: colors.buttonBackGroundSecondary,
+              fontWeight: "bold",
+              color: colors.pinkish_black,
+              fontSize: 30,
             }}
-            title="Finalizeaza Comanda"
-            alertMessage="Confirma finalizarea intregii comenzi"
+          >
+            {" "}
+            {route.params.title}
+          </AppText>
+        </AppText>
+
+        <AppText>Detalii: {route.params.details}</AppText>
+        <View
+          style={{ height: 1, backgroundColor: colors.primary, margin: 5 }}
+        />
+        <AppText>Adaugata la : {route.params.date_in.slice(0, 10)}</AppText>
+        <AppText style={styles.factortext}>
+          Factor de urgenta: {route.params.emergency_factor} (+zile)
+        </AppText>
+        <AppText style={styles.factortext}>
+          Factor de pret: {route.params.price_factor} (sugestie)
+        </AppText>
+        <AppText style={styles.factortext}>
+          Importanta client: {route.params.importance - 1} (+zile in asteptare)
+        </AppText>
+      </View>
+      <AppText style={styles.middleText}>CLIENT:</AppText>
+      <ClientCard
+        name={client.name}
+        phone={client.phone}
+        email={client.email}
+        fiscal_code={client.fiscal_code}
+        details={client.details}
+      />
+
+      <AppText style={styles.middleText}>
+        {" "}
+        {items.length > 0 ? "ARTICOLE: " : "Niciun articol adaugat inca"}
+      </AppText>
+
+      <FlatList
+        data={items}
+        renderItem={({ item }) => (
+          <ItemCard
+            type={item.type}
+            title={item.title}
+            details={item.details}
+            proceduresTotal={item.procedures_total}
+            proceduresDone={item.procedures_done}
             onPress={() => {
-              handleFinishOrder();
+              navigation.navigate("Item Details Screen", { ...item });
             }}
           />
         )}
-      </View>
-    </View>
+        keyExtractor={(item) => item.id}
+      />
+    </Screen>
   );
 }
 

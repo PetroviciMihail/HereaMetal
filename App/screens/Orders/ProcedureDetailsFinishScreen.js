@@ -9,6 +9,8 @@ import { AppForm, AppFormField, SubmitButton } from "../../components/forms";
 import * as Yup from "yup";
 import { completeProcedure, deleteProcedure } from "../../network/procedures";
 import DeleteButton from "../../components/DeleteButton";
+import AppFormDatePicker from "../../components/forms/AppFormDatePicker";
+import AppImageViewer from "../../components/AppImageViewer";
 
 const validationSchema = Yup.object().shape({
   date_out: Yup.date(),
@@ -48,7 +50,7 @@ function ProcedureDetailsFinishScreen({ route, navigation }) {
   };
 
   return (
-    <Screen style={styles.container}>
+    <Screen>
       <View style={styles.detailsContainer}>
         <View style={styles.topContainer}>
           <AppText
@@ -72,17 +74,19 @@ function ProcedureDetailsFinishScreen({ route, navigation }) {
             />
           </View>
         </View>
+        {route.params.images[0] && (
+          <AppImageViewer images={route.params.images} initialIndex={0} />
+        )}
       </View>
       <AppForm
         initialValues={procedureInitialValues}
         onSubmit={(values) => handleFinishProcedure(values)}
         validationSchema={validationSchema}
       >
-        <AppFormField
-          autoCorrect={false}
+        <AppFormDatePicker
+          name="date_in"
           icon="calendar"
-          placeholder="Data de iesire"
-          name="date_out"
+          placeholder="Data de intrare"
         />
         <AppFormField
           autoCorrect={false}
@@ -101,7 +105,6 @@ function ProcedureDetailsFinishScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { paddingTop: 2 },
   detailsContainer: {
     backgroundColor: colors.coldWhite,
     padding: 5,

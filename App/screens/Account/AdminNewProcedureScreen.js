@@ -5,17 +5,25 @@ import Screen from "../../components/Screen";
 import { AppForm, AppFormField, SubmitButton } from "../../components/forms";
 import { addNewProcedureTitle } from "../../network/procedureTitles";
 import AppText from "../../components/AppText";
+import AppFormPicker from "../../components/forms/AppFormPicker";
+import { types } from "../../config/types";
 
 const validationSchema = Yup.object().shape({
   type: Yup.string()
     .oneOf(["chiuloasa", "bloc", "arbore", "diverse"])
     .required("Tipul este obligatoriu"),
   title: Yup.string()
-    .min(5)
-    .max(50)
+    .min(5, "minim 5 caractere")
+    .max(50, "maxim 50 de caractere")
     .required("Titlul procedurii este obligatoriu"),
-  rank_index: Yup.number().max(100),
-  base_price: Yup.number().required("pretul de baza trebuie stabilit"),
+  rank_index: Yup.number()
+    .typeError("Rankul trebuie sa fie un numar de la 0 la 100")
+    .max(100, "maxim 100"),
+  base_price: Yup.number()
+    .typeError("Pret trebuie sa fie un numar")
+    .required("pretul de baza trebuie stabilit"),
+  price_instructions: Yup.string().max(1000),
+  details: Yup.string().max(1000),
 });
 
 function AdminNewProcedureScreen({ navigation }) {
@@ -29,16 +37,22 @@ function AdminNewProcedureScreen({ navigation }) {
   return (
     <Screen style={styles.container}>
       <AppForm
-        initialValues={{ type: "", rank_index: "", title: "", base_price: "" }}
+        initialValues={{
+          type: "",
+          rank_index: "",
+          title: "",
+          base_price: "",
+          price_instructions: "",
+          details: "",
+        }}
         onSubmit={(values) => handleNewProcedureTitle(values)}
         validationSchema={validationSchema}
       >
-        <AppFormField
-          autoCorrect={false}
-          autoCapitalize="none"
-          icon="ballot"
-          placeholder="Tip: chiuloasa/ bloc/ arbore/ diverse"
+        <AppFormPicker
+          items={types}
+          placeholder="Selecteaza tipul"
           name="type"
+          icon="ballot"
         />
         <AppFormField
           autoCorrect={false}
@@ -61,11 +75,19 @@ function AdminNewProcedureScreen({ navigation }) {
           placeholder="Pretul de baza"
           name="base_price"
         />
-        <AppText
-          style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 20 }}
-        >
-          Pretul care ar fi aplicat cand un articol are factorul de marime 1
-        </AppText>
+        <AppFormField
+          autoCorrect={false}
+          icon="information-outline"
+          placeholder="Instructiuni despre cum se aplica pretul de baza"
+          name="price_instructions"
+        />
+        <AppFormField
+          autoCorrect={false}
+          icon="clipboard-list-outline"
+          placeholder="Detalii despre ce cuprinde procedura"
+          name="details"
+        />
+
         <SubmitButton title="Adauga procedura" />
       </AppForm>
     </Screen>

@@ -1,22 +1,22 @@
 import { useFormikContext } from "formik";
 import React from "react";
 import FormErrorMessage from "./FormErrorMessage";
-import AppPickerWithoutModal from "../AppPickerWithoutModal";
+import AppDatePicker from "../AppDatePicker";
 
-function AppFormPicker({ items, name, placeholder, icon, style }) {
+function AppFormDatePicker({ name, placeholder, icon, style }) {
   const { errors, setFieldValue, setFieldTouched, touched, values } =
     useFormikContext();
 
   return (
     <>
-      <AppPickerWithoutModal
-        items={items}
+      <AppDatePicker
         onSelectValue={(item) => {
           setFieldValue(name, item);
-          // setFieldTouched(name, true);
+          setFieldTouched(name, true);
+          console.log(item);
+          console.log("din set field cu item din appdatePicker");
         }}
-        placeholder={placeholder}
-        selectedValue={values[name]}
+        value={values[name]}
         icon={icon}
         style={style}
       />
@@ -25,4 +25,4 @@ function AppFormPicker({ items, name, placeholder, icon, style }) {
   );
 }
 
-export default AppFormPicker;
+export default AppFormDatePicker;

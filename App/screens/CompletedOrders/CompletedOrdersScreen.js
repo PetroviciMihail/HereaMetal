@@ -9,6 +9,7 @@ import { useFocusEffect } from "@react-navigation/native";
 import CompletedOrderCard from "../../components/CompletedOrderCard";
 import AppText from "../../components/AppText";
 import colors from "../../config/colors";
+import Screen from "../../components/Screen";
 
 function CompletedOrdersScreen({ navigation }) {
   const [data, setData] = useState([]);
@@ -45,8 +46,9 @@ function CompletedOrdersScreen({ navigation }) {
   );
 
   return (
-    <>
-      <View style={styles.container}>
+    <Screen
+      safeTopPadding
+      header={
         <View style={styles.topButtons}>
           {/* <AppButton
             title="Buton"
@@ -68,43 +70,34 @@ function CompletedOrdersScreen({ navigation }) {
             Lucrari terminate
           </AppText>
         </View>
-
-        <View style={styles.listContainer}>
-          <FlatList
-            data={data}
-            renderItem={({ item }) => (
-              <CompletedOrderCard
-                onPress={() => {
-                  navigation.navigate("Completed Order Details Screen", {
-                    ...item,
-                  });
-                }}
-                id={item.id}
-                title={item.title}
-                clientName={item.client_name}
-                waitingDays={item.waitingDays}
-                proceduresTotal={item.procedures_total_for_order}
-                itemsList={item.item_types}
-                delivered={item.delivered}
-              />
-            )}
-            keyExtractor={(item) => item.id}
+      }
+    >
+      <FlatList
+        data={data}
+        renderItem={({ item }) => (
+          <CompletedOrderCard
+            onPress={() => {
+              navigation.navigate("Completed Order Details Screen", {
+                ...item,
+              });
+            }}
+            id={item.id}
+            title={item.title}
+            clientName={item.client_name}
+            waitingDays={item.waitingDays}
+            proceduresTotal={item.procedures_total_for_order}
+            itemsList={item.item_types}
+            delivered={item.delivered}
           />
-        </View>
-      </View>
-    </>
+        )}
+        keyExtractor={(item) => item.id}
+      />
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: Constants.statusBarHeight,
-    paddingLeft: 10,
-    paddingRight: 10,
-    flex: 1,
-  },
   topButtons: { marginLeft: 3, marginRight: 3 },
-  listContainer: { flex: 1 },
 });
 
 export default CompletedOrdersScreen;

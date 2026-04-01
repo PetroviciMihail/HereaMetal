@@ -46,7 +46,7 @@ function FinishedProcedureScreen({ route, navigation }) {
   };
 
   return (
-    <Screen style={styles.container}>
+    <Screen>
       <View style={styles.detailsContainer}>
         <View style={styles.topContainer}>
           <AppText
@@ -96,7 +96,7 @@ function FinishedProcedureScreen({ route, navigation }) {
           <AppFormField
             autoCorrect={false}
             icon="card-text"
-            placeholder="Fara detalii intrare"
+            placeholder="Detalii intrare"
             name="details_in"
           />
           <View style={styles.horizontalSeparator} />
@@ -109,7 +109,7 @@ function FinishedProcedureScreen({ route, navigation }) {
           <AppFormField
             autoCorrect={false}
             icon="card-text"
-            placeholder="Fara detalii iesire"
+            placeholder="Detalii iesire"
             name="details_out"
           />
           <View style={styles.horizontalSeparator} />
@@ -138,7 +138,6 @@ function FinishedProcedureScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { paddingTop: 2 },
   detailsContainer: {
     backgroundColor: colors.coldWhite,
     padding: 5,

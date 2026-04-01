@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, TouchableOpacity, Platform, Alert } from "react-native";
 import colors from "../config/colors";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -9,16 +9,22 @@ function DeleteButton({ onPress, alertMessage }) {
       onPress?.();
       return;
     }
-
-    Alert.alert(
-      "Confirmare",
-      alertMessage,
-      [
-        { text: "Anulează", style: "cancel" },
-        { text: "Continuă", onPress },
-      ],
-      { cancelable: true },
-    );
+    if (Platform.OS === "web") {
+      const confirmed = window.confirm(alertMessage);
+      if (confirmed) {
+        onPress?.();
+      }
+    } else {
+      Alert.alert(
+        "Confirmare",
+        alertMessage,
+        [
+          { text: "Anulează", style: "cancel" },
+          { text: "Continuă", onPress },
+        ],
+        { cancelable: true },
+      );
+    }
   };
   return (
     <TouchableOpacity style={styles.button} onPress={handlePress}>

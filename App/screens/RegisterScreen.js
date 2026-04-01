@@ -24,7 +24,7 @@ function RegisterScreen({ navigation }) {
   };
 
   return (
-    <Screen style={styles.container}>
+    <Screen>
       <AppForm
         initialValues={{
           name: "",
@@ -71,9 +71,6 @@ function RegisterScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 100,
-  },
   buttonContainer: {
     paddingTop: 50,
   },

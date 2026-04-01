@@ -10,7 +10,6 @@ import {
 import colors from "../config/colors";
 import AppText from "./AppText";
 import TypeLabel from "./TypeLabel";
-import App from "../../App";
 
 const getColor = (value) => {
   if (value < 5) return colors.textGreen;
@@ -68,7 +67,7 @@ function CompletedOrderCard({
 
         <View style={styles.horizontalSeparator} />
         <View style={styles.daysProceduresContainer}>
-          <View style={{ flex: 1, flexWrap: "wrap" }}>
+          <View style={{ flex: 1 }}>
             <AppText
               style={[styles.daysText, { color: getColor(waitingDays) }]}
             >

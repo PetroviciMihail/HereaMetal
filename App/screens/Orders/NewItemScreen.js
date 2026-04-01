@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, StyleSheet, Alert } from "react-native";
 import * as Yup from "yup";
 import Screen from "../../components/Screen";
 import { AppForm, AppFormField, SubmitButton } from "../../components/forms";
-import AppText from "../../components/AppText";
-import colors from "../../config/colors";
+
 import { addNewItem } from "../../network/items";
+import AppFormPicker from "../../components/forms/AppFormPicker";
+import { types } from "../../config/types";
 
 const validationSchema = Yup.object().shape({
   type: Yup.string()
@@ -35,19 +36,25 @@ function NewItemScreen({ navigation, route }) {
   };
 
   return (
-    <Screen style={styles.container}>
+    <Screen>
       <AppForm
         initialValues={itemValues}
         onSubmit={(values) => handleNewItem(values)}
         validationSchema={validationSchema}
       >
-        <AppFormField
+        <AppFormPicker
+          items={types}
+          placeholder="Selecteaza tipul"
+          name="type"
+          icon="ballot"
+        />
+        {/* <AppFormField
           autoCorrect={false}
           autoCapitalize="none"
-          icon="ballot"
+          
           placeholder="Tip: chiuloasa/ bloc/ arbore/ diverse"
           name="type"
-        />
+        /> */}
         <AppFormField
           autoCorrect={false}
           icon="rename-box"
@@ -74,8 +81,6 @@ function NewItemScreen({ navigation, route }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { paddingTop: 2 },
-});
+const styles = StyleSheet.create({});
 
 export default NewItemScreen;

@@ -43,13 +43,28 @@ function AdminEditProcedureScreen({ navigation, route }) {
   };
 
   return (
-    <Screen style={styles.container}>
+    <Screen
+      footer={
+        <AppButton
+          title="Sterge procedura"
+          alertMessage="Nerecomandat, dar niciun articol nu va fi afectat"
+          style={{
+            backgroundColor: colors.buttonBackGroundRed,
+            marginTop: "auto",
+            marginBottom: 10,
+          }}
+          onPress={handleDeleteProcedureTitle}
+        />
+      }
+    >
       <AppForm
         initialValues={{
           type: route.params.type,
           rank_index: route.params.rank_index.toString(),
           title: route.params.title,
           base_price: route.params.base_price.toString(),
+          price_instructions: route.params.price_instructions,
+          details: route.params.details,
         }}
         onSubmit={(values) => handleEditProcedureTitle(values)}
         validationSchema={validationSchema}
@@ -58,8 +73,9 @@ function AdminEditProcedureScreen({ navigation, route }) {
           autoCorrect={false}
           autoCapitalize="none"
           icon="ballot"
-          placeholder="Tip: chiuloasa/ bloc/ arbore/ diverse"
+          placeholder="Tip:"
           name="type"
+          editable={false}
         />
         <AppFormField
           autoCorrect={false}
@@ -82,26 +98,24 @@ function AdminEditProcedureScreen({ navigation, route }) {
           placeholder="Pretul de baza"
           name="base_price"
         />
-        <AppText
-          style={{ paddingLeft: 10, paddingRight: 10, paddingBottom: 20 }}
-        >
-          Pretul care ar fi aplicat cand un articol are factorul de marime 1
-        </AppText>
+        <AppFormField
+          autoCorrect={false}
+          icon="information-outline"
+          placeholder="Instructiuni despre cum se aplica pretul de baza"
+          name="price_instructions"
+        />
+        <AppFormField
+          autoCorrect={false}
+          icon="clipboard-list-outline"
+          placeholder="Detalii despre ce cuprinde procedura"
+          name="details"
+        />
+
         <SubmitButton
           title="Salveaza modificarile"
           alertMessage="Sigur modifici detaliile? Comenzile care deja au pretul stabilit nu vor fi afectate"
         />
       </AppForm>
-      <AppButton
-        title="Sterge procedura"
-        alertMessage="Nerecomandat, dar niciun articol nu va fi afectat"
-        style={{
-          backgroundColor: colors.buttonBackGroundRed,
-          marginTop: "auto",
-          marginBottom: 10,
-        }}
-        onPress={handleDeleteProcedureTitle}
-      />
     </Screen>
   );
 }

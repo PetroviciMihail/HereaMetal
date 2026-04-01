@@ -4,17 +4,31 @@ import Screen from "../../components/Screen";
 import AppText from "../../components/AppText";
 import colors from "../../config/colors";
 import AppButton from "../../components/AppButton";
-import * as SecureStore from "expo-secure-store";
+
+import { storage } from "../../config/storage";
 
 function AccountScreen({ navigation }) {
   const handleLogOut = async () => {
-    await SecureStore.deleteItemAsync("jwt_token");
-    //await SecureStore.deleteItemAsync("user_name");
+    await storage.remove("jwt_token");
+
     navigation.replace("LogIn");
   };
 
   return (
-    <Screen>
+    <Screen
+      safeTopPadding
+      footer={
+        <AppButton
+          title={"Iesire din cont"}
+          style={{
+            backgroundColor: colors.buttonBackGroundRed,
+            marginTop: "auto",
+            marginBottom: 20,
+          }}
+          onPress={() => handleLogOut()}
+        />
+      }
+    >
       <View style={styles.container}>
         <AppText style={{ textAlign: "center", padding: 10 }}>
           Zona administrator
@@ -35,15 +49,6 @@ function AccountScreen({ navigation }) {
           onPress={() => navigation.navigate("Users Screen")}
         />
       </View>
-      <AppButton
-        title={"Iesire din cont"}
-        style={{
-          backgroundColor: colors.buttonBackGroundRed,
-          marginTop: "auto",
-          marginBottom: 20,
-        }}
-        onPress={() => handleLogOut()}
-      />
     </Screen>
   );
 }

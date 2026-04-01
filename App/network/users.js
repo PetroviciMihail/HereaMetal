@@ -1,5 +1,5 @@
+import { storage } from "../config/storage";
 import axiosClient from "./axiosClient";
-import * as SecureStore from "expo-secure-store";
 
 async function registerNewUser(data) {
   try {
@@ -38,10 +38,45 @@ async function logIn(data) {
       },
     });
     const { token } = response.data;
-    await SecureStore.setItemAsync("jwt_token", token);
-    await SecureStore.setItemAsync("user_name", data.name);
+    await storage.set("jwt_token", token);
+    await storage.set("user_name", data.name);
   } catch (e) {
     //console.log(e.response.data);
+    err = e.response.data;
+  } finally {
+    return [response, err];
+  }
+}
+
+async function deleteUser(data) {
+  console.log("huh");
+  let err,
+    response = undefined;
+  try {
+    response = await axiosClient({
+      method: "delete",
+      url: `/users/${data.name}`,
+    });
+  } catch (e) {
+    console.log(e.response.data);
+    err = e.response.data;
+  } finally {
+    return [response, err];
+  }
+}
+
+async function setAutorityLevel(data) {
+  console.log("huh");
+  let err,
+    response = undefined;
+  try {
+    response = await axiosClient({
+      method: "post",
+      url: `/users/autority`,
+      data: data,
+    });
+  } catch (e) {
+    console.log(e.response.data);
     err = e.response.data;
   } finally {
     return [response, err];
@@ -98,4 +133,12 @@ async function checkJWT() {
   }
 }
 
-export { registerNewUser, logIn, getUsers, getUserProcedures, checkJWT };
+export {
+  registerNewUser,
+  logIn,
+  deleteUser,
+  setAutorityLevel,
+  getUsers,
+  getUserProcedures,
+  checkJWT,
+};

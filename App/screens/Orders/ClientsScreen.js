@@ -4,6 +4,7 @@ import Screen from "../../components/Screen";
 import AppButton from "../../components/AppButton";
 import ClientCard from "../../components/ClientCard";
 import { getClients } from "../../network/clients";
+import AppText from "../../components/AppText";
 
 function ClientsScreen({ navigation }) {
   const [data, setData] = useState([]); // Stocăm datele
@@ -25,38 +26,36 @@ function ClientsScreen({ navigation }) {
   }, []);
 
   return (
-    <>
-      <View style={styles.container}>
-        <Screen style={styles.listContainer}>
-          <FlatList
-            data={data}
-            renderItem={({ item }) => (
-              <ClientCard
-                onPress={() =>
-                  navigation.navigate("New Order Screen", {
-                    clientName: item.name,
-                  })
-                }
-                name={item.name}
-                phone={item.phone}
-                email={item.email}
-                type={item.type}
-                fiscal_code={item.fiscal_code}
-                details={item.details}
-                importance={item.importance}
-              />
-            )}
-            keyExtractor={(item) => item.name}
+    <Screen
+      header={<AppText>Clienti existenti</AppText>}
+      footer={
+        <AppButton
+          title="Client Nou"
+          onPress={() => navigation.navigate("New Client Screen")}
+        />
+      }
+    >
+      <FlatList
+        data={data}
+        renderItem={({ item }) => (
+          <ClientCard
+            onPress={() =>
+              navigation.navigate("New Order Screen", {
+                clientName: item.name,
+              })
+            }
+            name={item.name}
+            phone={item.phone}
+            email={item.email}
+            type={item.type}
+            fiscal_code={item.fiscal_code}
+            details={item.details}
+            importance={item.importance}
           />
-        </Screen>
-        <View style={styles.containerButton}>
-          <AppButton
-            title="Client Nou"
-            onPress={() => navigation.navigate("New Client Screen")}
-          />
-        </View>
-      </View>
-    </>
+        )}
+        keyExtractor={(item) => item.name}
+      />
+    </Screen>
   );
 }
 

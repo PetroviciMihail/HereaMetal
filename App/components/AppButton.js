@@ -1,5 +1,12 @@
 import React from "react";
-import { Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  Pressable,
+  TouchableOpacity,
+  Alert,
+  Platform,
+} from "react-native";
 import colors from "../config/colors";
 
 function AppButton({ title, onPress, style, alertMessage }) {
@@ -9,18 +16,30 @@ function AppButton({ title, onPress, style, alertMessage }) {
       return;
     }
 
-    Alert.alert(
-      "Confirmare",
-      alertMessage,
-      [
-        { text: "Anulează", style: "cancel" },
-        { text: "Continuă", onPress },
-      ],
-      { cancelable: true },
-    );
+    if (Platform.OS === "web") {
+      const confirmed = window.confirm(alertMessage);
+      if (confirmed) {
+        onPress?.();
+      }
+    } else {
+      Alert.alert(
+        "Confirmare",
+        alertMessage,
+        [
+          { text: "Anulează", style: "cancel" },
+          { text: "Continuă", onPress },
+        ],
+        { cancelable: true },
+      );
+    }
   };
   return (
-    <TouchableOpacity style={[styles.button, style]} onPress={handlePress}>
+    <TouchableOpacity
+      style={[styles.button, style]}
+      onPress={() => {
+        handlePress();
+      }}
+    >
       <Text style={styles.text}>{title}</Text>
     </TouchableOpacity>
   );
@@ -28,6 +47,7 @@ function AppButton({ title, onPress, style, alertMessage }) {
 
 const styles = StyleSheet.create({
   button: {
+    flex: 1,
     backgroundColor: colors.buttonBackGroundPrimary,
     borderRadius: 15,
     justifyContent: "center",

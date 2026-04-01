@@ -5,12 +5,49 @@ import OrdersNavigator from "./OrdersNavigator";
 import ProceduresNavigator from "./ProceduresNavigator";
 import AccountNavigator from "./AccountNavigator";
 import CompletedOrdersNavigator from "./CompletedOrders";
+import { Platform, Text } from "react-native";
+import AppText from "../components/AppText";
+import colors from "../config/colors";
 
 const Tab = createBottomTabNavigator();
 
 function AppNavigator() {
   return (
-    <Tab.Navigator screenOptions={{ headerShown: false }}>
+    <Tab.Navigator
+      screenOptions={{
+        headerShown: false,
+        tabBarStyle: [
+          {
+            height: 70,
+          },
+
+          Platform.OS === "web" && {
+            maxWidth: 900,
+            width: "100%",
+            alignSelf: "center",
+          },
+        ],
+        tabBarLabel: ({ children, focused }) => (
+          <AppText
+            style={[
+              {
+                fontSize: 14,
+                textAlign: "center",
+              },
+              focused && {
+                color: colors.errorRed,
+              },
+              Platform.OS === "web" && {
+                fontSize: 24,
+              },
+            ]}
+            numberOfLines={2}
+          >
+            {children}
+          </AppText>
+        ),
+      }}
+    >
       <Tab.Screen
         name="Orders"
         component={OrdersNavigator}
@@ -43,7 +80,7 @@ function AppNavigator() {
         name="Competed Orders"
         component={CompletedOrdersNavigator}
         options={{
-          title: "Lucrări termiante",
+          title: "Lucrări terminate",
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons
               name="newspaper-check"

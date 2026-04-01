@@ -1,14 +1,17 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { View, StyleSheet, FlatList } from "react-native";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { StyleSheet, FlatList } from "react-native";
 import Constants from "expo-constants";
 import OrderCard from "../../components/OrderCard";
-import AppButton from "../../components/AppButton";
 import { getOrders } from "../../network/orders";
 import { Alert } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
+import Screen from "../../components/Screen";
+import AddNewButton from "../../components/AddNewButton";
+import AppTextInput from "../../components/AppTextInput";
 
 function OrdersScreen({ navigation }) {
   const [data, setData] = useState([]);
+  const [search, setSearch] = useState("");
 
   const getOrdersFromApi = async () => {
     const [response, err] = await getOrders();
@@ -35,59 +38,74 @@ function OrdersScreen({ navigation }) {
     }
   };
 
+  const filteredData = useMemo(() => {
+    if (!search.trim()) return data;
+    const lowerSearch = search.toLowerCase();
+    return data.filter(
+      (item) =>
+        String(item.id).includes(lowerSearch) ||
+        item.title?.toLowerCase().includes(lowerSearch) ||
+        item.client_name?.toLowerCase().includes(lowerSearch) ||
+        item.details?.toLowerCase().includes(lowerSearch) ||
+        String(item.item_types.join(" ")).toLowerCase().includes(lowerSearch),
+    );
+  }, [search, data]);
+
   useFocusEffect(
     useCallback(() => {
       getOrdersFromApi();
     }, []),
   );
 
+  useEffect(() => {}, [search]);
+
   return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.topButtons}>
-          <AppButton
-            title="Comanda noua"
-            style={{ width: "50%" }}
-            onPress={() => {
-              navigation.navigate("Clients Screen");
+    <Screen
+      safeTopPadding
+      scrollable={false}
+      header={
+        <>
+          <AppTextInput
+            icon="text-search-variant"
+            placeholder="Cautare"
+            onChangeText={(newText) => {
+              setSearch(newText);
             }}
           />
-        </View>
-
-        <View style={styles.listContainer}>
-          <FlatList
-            data={data}
-            renderItem={({ item }) => (
-              <OrderCard
-                onPress={() => {
-                  navigation.navigate("Order Details Screen", { ...item });
-                }}
-                id={item.id}
-                title={item.title}
-                clientName={item.client_name}
-                waitingDays={item.waitingDays}
-                proceduresDone={item.procedures_done_for_order}
-                proceduresTotal={item.procedures_total_for_order}
-                itemsList={item.item_types}
-              />
-            )}
-            keyExtractor={(item) => item.id}
+        </>
+      }
+    >
+      <FlatList
+        data={filteredData}
+        renderItem={({ item }) => (
+          <OrderCard
+            onPress={() => {
+              navigation.navigate("Order Details Screen", { ...item });
+            }}
+            id={item.id}
+            title={item.title}
+            clientName={item.client_name}
+            waitingDays={item.waitingDays}
+            proceduresDone={item.procedures_done_for_order}
+            proceduresTotal={item.procedures_total_for_order}
+            itemsList={item.item_types}
           />
-        </View>
-      </View>
-    </>
+        )}
+        keyExtractor={(item) => item.id}
+        showsVerticalScrollIndicator={false}
+      />
+      <AddNewButton
+        onPress={() => {
+          navigation.navigate("Clients Screen");
+        }}
+        style={styles.addButton}
+      />
+    </Screen>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: Constants.statusBarHeight,
-    paddingLeft: 10,
-    paddingRight: 10,
-    flex: 1,
-  },
-  topButtons: { marginLeft: 3, marginRight: 3 },
-  listContainer: { flex: 1 },
+  addButton: { position: "absolute", bottom: 20, right: 20 },
 });
 
 export default OrdersScreen;

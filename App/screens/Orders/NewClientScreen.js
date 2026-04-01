@@ -4,6 +4,7 @@ import * as Yup from "yup";
 import Screen from "../../components/Screen";
 import { AppForm, SubmitButton, AppFormField } from "../../components/forms";
 import { registerNewClient } from "../../network/clients";
+import AppText from "../../components/AppText";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(4),
@@ -33,8 +34,7 @@ function NewClientScreen({ navigation }) {
   };
 
   return (
-    <Screen style={styles.container}>
-      <Text>Completeaza datele clientului nou</Text>
+    <Screen>
       <AppForm
         initialValues={ClientValues}
         onSubmit={(values) => handleClientChoice(values)}
@@ -89,8 +89,6 @@ function NewClientScreen({ navigation }) {
   );
 }
 
-const styles = StyleSheet.create({
-  container: { paddingTop: 2 },
-});
+const styles = StyleSheet.create({});
 
 export default NewClientScreen;

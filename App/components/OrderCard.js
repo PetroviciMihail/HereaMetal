@@ -67,7 +67,7 @@ function OrderCard({
 
         <View style={styles.horizontalSeparator} />
         <View style={styles.daysProceduresContainer}>
-          <View style={{ flex: 1, flexWrap: "wrap" }}>
+          <View style={{ flex: 1 }}>
             <AppText
               style={[styles.daysText, { color: getColor(waitingDays) }]}
             >
@@ -75,7 +75,7 @@ function OrderCard({
             </AppText>
           </View>
           <View style={styles.verticalSeparator} />
-          <View style={{ flex: 1, flexWrap: "wrap" }}>
+          <View style={{ flex: 1 }}>
             {proceduresTotal > 0 ? (
               <AppText style={styles.procedureText}>
                 {proceduresDone} / {proceduresTotal} proceduri terminate{" "}
@@ -110,8 +110,8 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     padding: 10,
     elevation: 3,
-    marginLeft: 5,
-    marginRight: 5,
+    marginLeft: 3,
+    marginRight: 3,
     overflow: "visible",
     borderWidth: 1,
     borderColor: colors.primary,
@@ -144,10 +144,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   idText: {
-    fontSize: 25,
-    padding: 10,
+    fontSize: 30,
+    padding: 4,
     textAlign: "center",
     color: colors.blueish_black,
+    fontWeight: "bold",
   },
   verticalSeparator: {
     width: 2,
@@ -162,7 +163,7 @@ const styles = StyleSheet.create({
   },
 
   procedureText: {
-    fontSize: 20,
+    fontSize: 23,
     alignSelf: "center",
     textAlign: "center",
   },

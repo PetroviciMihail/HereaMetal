@@ -1,22 +1,31 @@
+import { Platform } from "react-native";
+import { storage } from "../config/storage";
 import axiosClient from "./axiosClient";
-import * as SecureStore from "expo-secure-store";
+import { buildFormData } from "./utils";
 
-async function addNewProcedureToItemId(data) {
+async function addNewProcedureToItemId(data, images) {
   let err,
     response = undefined;
-  data.added_by_user = await SecureStore.getItemAsync("user_name");
-  console.log("data in api add new Procedure to Item:");
-  console.log(data);
+  data.added_by_user = await storage.get("user_name");
+
+  const formData = await buildFormData(data, images);
+
   try {
     response = await axiosClient({
       method: "post",
       url: "/procedures/new",
-      data: data,
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
     });
+    console.log(formData);
   } catch (e) {
     console.log(e.response.data);
     err = e.response.data;
   } finally {
+    console.log(
+      "am TRIMIT REQUEST CĂTRE:",
+      `http://192.168.1.2:3000/procedures`,
+    );
     return [response, err];
   }
 }
@@ -40,7 +49,7 @@ async function getProceduresForItemId(id) {
 async function completeProcedure(data) {
   let err,
     response = undefined;
-  data.completed_by_user = await SecureStore.getItemAsync("user_name");
+  data.completed_by_user = await storage.get("user_name");
   console.log("data in api complte procedure:");
   console.log(data);
   try {

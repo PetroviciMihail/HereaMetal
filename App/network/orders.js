@@ -1,11 +1,11 @@
+import { storage } from "../config/storage";
 import axiosClient from "./axiosClient";
-import * as SecureStore from "expo-secure-store";
 
 async function createNewOrder(data) {
   let err,
     response = undefined;
   try {
-    data.added_by_user = await SecureStore.getItemAsync("user_name");
+    data.added_by_user = await storage.get("user_name");
     console.log("data in api create new Order:");
     console.log(data);
     response = await axiosClient({
@@ -59,7 +59,7 @@ async function completeOrder(data) {
   if (data.completed_by_user === "delete") {
     data.completed_by_user = "";
   } else {
-    data.completed_by_user = await SecureStore.getItemAsync("user_name");
+    data.completed_by_user = await storage.get("user_name");
   }
   console.log("data in api finish order:");
   console.log(data);

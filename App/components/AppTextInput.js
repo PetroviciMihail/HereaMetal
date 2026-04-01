@@ -3,18 +3,15 @@ import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { TextInput, StyleSheet, View } from "react-native";
 import colors from "../config/colors";
 
+import AutoGrowTextInput from "./AutoGrowTextInput";
+
 function AppTextInput({ icon, ...otherProps }) {
   return (
     <View style={styles.container}>
       {icon && (
         <MaterialCommunityIcons name={icon} size={35} style={styles.icon} />
       )}
-      <TextInput
-        style={styles.textInput}
-        multiline={!otherProps.secureTextEntry}
-        minHeight={20}
-        {...otherProps}
-      />
+      <AutoGrowTextInput style={styles.textInput} {...otherProps} />
     </View>
   );
 }
@@ -24,7 +21,7 @@ const styles = StyleSheet.create({
     backgroundColor: colors.coldWhite,
     borderRadius: 15,
     flexDirection: "row",
-    padding: 5,
+    padding: 2,
     marginVertical: 5,
     alignItems: "center",
     elevation: 3,

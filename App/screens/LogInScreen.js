@@ -6,7 +6,8 @@ import Screen from "../components/Screen";
 import * as Yup from "yup";
 import { AppForm, AppFormField, SubmitButton } from "../components/forms";
 import { checkJWT, logIn } from "../network/users";
-import * as SecureStore from "expo-secure-store";
+import { storage } from "../config/storage";
+import { showError } from "../network/alertService";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(5).label("Nume"),
@@ -18,8 +19,8 @@ function LogInScreen({ navigation }) {
   const [logedinName, setLogedinName] = React.useState("");
 
   async function checkLoggedIn() {
-    const token = await SecureStore.getItemAsync("jwt_token");
-    const name = await SecureStore.getItemAsync("user_name");
+    const token = await storage.get("jwt_token");
+    const name = await storage.get("user_name");
     console.log("set name  " + name);
     setLogedinName(name);
     //setTimeout(()=>{});
@@ -31,7 +32,7 @@ function LogInScreen({ navigation }) {
     const [response, err] = await checkJWT();
     if (err) {
       //console.log("eroare de la jwt");
-      await SecureStore.deleteItemAsync("jwt_token");
+      await storage.remove("jwt_token");
       return false;
     } else if (response.status == 200) {
       navigation.replace("App");
@@ -53,14 +54,15 @@ function LogInScreen({ navigation }) {
     const [response, err] = await logIn(values);
 
     if (err) {
-      Alert.alert("Eroare la intrarea in cont: ", err);
+      console.log("eroare da");
+      showError("Eroare la intrarea in cont: ", err);
     } else if (response.status == 200) {
       navigation.replace("App");
     }
   };
 
   return (
-    <Screen style={styles.container}>
+    <Screen>
       <Text style={styles.title}>Herea Metal {"\n"}evidenta lucrarilor</Text>
 
       <AppForm
@@ -82,6 +84,7 @@ function LogInScreen({ navigation }) {
           placeholder="Parola"
           name="password"
           secureTextEntry
+          submitOnEnter
         />
         <SubmitButton title="Intra in cont" />
       </AppForm>
@@ -95,15 +98,12 @@ function LogInScreen({ navigation }) {
   );
 }
 const styles = StyleSheet.create({
-  container: {
-    paddingTop: 100,
-    //alignItems: "center",
-  },
   buttonContainer: {
     paddingTop: 50,
   },
   title: {
     padding: 70,
+    paddingTop: 150,
     fontWeight: "400",
     fontSize: 25,
     textAlign: "center",

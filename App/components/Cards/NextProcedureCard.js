@@ -61,7 +61,7 @@ function NextProcedureCard({
 
         <View style={styles.horizontalSeparator} />
         <View style={styles.daysProceduresContainer}>
-          <View style={{ flex: 4, flexWrap: "wrap" }}>
+          <View style={{ flex: 4 }}>
             {waitingDays && (
               <AppText
                 style={[styles.daysText, { color: getColor(waitingDays) }]}
@@ -69,7 +69,11 @@ function NextProcedureCard({
                 In asteptare de {waitingDays} zile
               </AppText>
             )}
-            {date_out && <AppText>{date_out}</AppText>}
+            {date_out && (
+              <AppText style={{ alignSelf: "center", textAlign: "center" }}>
+                {date_out}
+              </AppText>
+            )}
           </View>
           <View style={styles.verticalSeparator} />
           <View

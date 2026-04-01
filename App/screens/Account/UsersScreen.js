@@ -9,6 +9,7 @@ import AppText from "../../components/AppText";
 import UserCard from "../../components/Cards/UserCard";
 import colors from "../../config/colors";
 import { getUsers } from "../../network/users";
+import Screen from "../../components/Screen";
 
 function UsersScreen({ navigation }) {
   const [data, setData] = useState([]);
@@ -33,55 +34,25 @@ function UsersScreen({ navigation }) {
   );
 
   return (
-    <>
-      <View style={styles.container}>
-        <View style={styles.topButtons}>
-          {/* <AppText
-            style={{
-              fontSize: 35,
-              color: colors.textBrown,
-              textAlign: "center",
-              borderColor: colors.borderBrown,
-              backgroundColor: colors.coldWhite,
-              borderWidth: 3,
-              borderRadius: 10,
-              margin: 5,
+    <Screen>
+      <FlatList
+        data={data}
+        renderItem={({ item }) => (
+          <UserCard
+            onPress={() => {
+              navigation.navigate("User Details Screen", { ...item });
             }}
-          >
-            Utilizatorii aplicatiei
-          </AppText> */}
-        </View>
-
-        <View style={styles.listContainer}>
-          <FlatList
-            data={data}
-            renderItem={({ item }) => (
-              <UserCard
-                onPress={() => {
-                  navigation.navigate("User Details Screen", { ...item });
-                }}
-                name={item.name}
-                email={item.email}
-                autority={item.autority}
-              />
-            )}
-            keyExtractor={(item) => item.id}
+            name={item.name}
+            email={item.email}
+            autority={item.autority}
           />
-        </View>
-      </View>
-    </>
+        )}
+        keyExtractor={(item) => item.id}
+      />
+    </Screen>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    paddingTop: 5,
-    paddingLeft: 10,
-    paddingRight: 10,
-    flex: 1,
-  },
-  topButtons: { marginLeft: 3, marginRight: 3 },
-  listContainer: { flex: 1 },
-});
+const styles = StyleSheet.create({});
 
 export default UsersScreen;

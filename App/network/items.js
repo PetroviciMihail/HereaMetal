@@ -1,10 +1,10 @@
+import { storage } from "../config/storage";
 import axiosClient from "./axiosClient";
-import * as SecureStore from "expo-secure-store";
 
 async function addNewItem(data) {
   let err,
     response = undefined;
-  data.added_by_user = await SecureStore.getItemAsync("user_name");
+  data.added_by_user = await storage.get("user_name");
   console.log("data in api add new Item:");
   console.log(data);
   try {

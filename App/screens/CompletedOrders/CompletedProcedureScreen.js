@@ -46,7 +46,7 @@ function CompletedProcedureScreen({ route, navigation }) {
   };
 
   return (
-    <Screen style={styles.container}>
+    <Screen>
       <View style={styles.detailsContainer}>
         <View style={styles.topContainer}>
           <AppText
@@ -138,7 +138,6 @@ function CompletedProcedureScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-  container: { paddingTop: 2 },
   detailsContainer: {
     backgroundColor: colors.coldWhite,
     padding: 5,
