@@ -1,4 +1,4 @@
-export const types = [
+export const item_types = [
   { label: "chiuloasa", value: "chiuloasa" },
   { label: "bloc", value: "bloc" },
   { label: "arbore", value: "arbore" },

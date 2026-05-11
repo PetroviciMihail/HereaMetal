@@ -8,7 +8,7 @@ import ProcedureTitleCard from "../../components/ProcedureTitleCard";
 import { useFocusEffect } from "@react-navigation/native";
 import Screen from "../../components/Screen";
 import AppPickerWithoutModal from "../../components/AppPickerWithoutModal";
-import { types } from "../../config/types";
+import {  item_types } from "../../config/item_types";
 
 function AdminProceduresScreen({ navigation }) {
   const [category, setCategory] = useState(null);
@@ -47,7 +47,7 @@ function AdminProceduresScreen({ navigation }) {
       }
     >
       <AppPickerWithoutModal
-        items={[{ label: "Toate", value: null }, ...types]}
+        items={[{ label: "Toate", value: null }, ...item_types]}
         selectedValue={category}
         onSelectValue={(item) => setCategory(item)}
         placeholder="Tip articol"

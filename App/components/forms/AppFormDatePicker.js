@@ -3,7 +3,7 @@ import React from "react";
 import FormErrorMessage from "./FormErrorMessage";
 import AppDatePicker from "../AppDatePicker";
 
-function AppFormDatePicker({ name, placeholder, icon, style }) {
+function AppFormDatePicker({ name, icon, style, ...otherProps }) {
   const { errors, setFieldValue, setFieldTouched, touched, values } =
     useFormikContext();
 
@@ -19,6 +19,7 @@ function AppFormDatePicker({ name, placeholder, icon, style }) {
         value={values[name]}
         icon={icon}
         style={style}
+        {...otherProps}
       />
       <FormErrorMessage error={errors[name]} visible={touched[name]} />
     </>

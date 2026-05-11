@@ -29,9 +29,12 @@ function ClientsScreen({ navigation }) {
     <Screen
       header={<AppText>Clienti existenti</AppText>}
       footer={
+        
+        
         <AppButton
           title="Client Nou"
           onPress={() => navigation.navigate("New Client Screen")}
+          
         />
       }
     >
@@ -55,6 +58,7 @@ function ClientsScreen({ navigation }) {
         )}
         keyExtractor={(item) => item.name}
       />
+    
     </Screen>
   );
 }

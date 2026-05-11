@@ -1,11 +1,12 @@
 import axios from "axios";
 import authEvents from "./authEvent";
 import { storage } from "../config/storage";
+import { BASE_URL } from "./utils";
 
 const axiosClient = axios.create({
-  baseURL: "http://192.168.1.2:3000",
+  baseURL: BASE_URL,
   timeout: 5000,
-  // headers: { "Content-Type": "application/json" },
+
 });
 
 // Interceptor care adaugă automat JWT-ul la fiecare request

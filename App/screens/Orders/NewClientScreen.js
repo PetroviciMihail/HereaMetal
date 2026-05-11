@@ -5,10 +5,11 @@ import Screen from "../../components/Screen";
 import { AppForm, SubmitButton, AppFormField } from "../../components/forms";
 import { registerNewClient } from "../../network/clients";
 import AppText from "../../components/AppText";
+import AppFormPicker from "../../components/forms/AppFormPicker";
 
 const validationSchema = Yup.object().shape({
   name: Yup.string().required().min(4),
-  type: Yup.string(),
+  type: Yup.string().required(),
   fiscal_code: Yup.string(),
   email: Yup.string().email(),
   phone: Yup.string().required(),
@@ -27,6 +28,8 @@ function NewClientScreen({ navigation }) {
   };
 
   const handleClientChoice = async (values) => {
+  if (values.importance==="") {
+    values.importance=0;}
     const [response, err] = await registerNewClient(values);
     if (err) {
       Alert.alert("Eroare server: ", err);
@@ -40,18 +43,25 @@ function NewClientScreen({ navigation }) {
         onSubmit={(values) => handleClientChoice(values)}
         validationSchema={validationSchema}
       >
+         <AppFormPicker
+          items={[{label:"persoana fizica", value:"persoana fizica"}, {label:"persoana juridica",value:"persoana juridica"}]}
+          placeholder="Persoana fizica/juridica"
+          name="type"
+          icon="account-cash"
+        />
         <AppFormField
           autoCorrect={false}
           icon="account"
           placeholder="Nume"
           name="name"
         />
-        <AppFormField
+        {/* <AppFormField
           autoCorrect={false}
           icon="account-cash"
           placeholder="persoana fizica/juridica"
           name="type"
-        />
+        /> */}
+       
         <AppFormField
           autoCorrect={false}
           icon="id-card"

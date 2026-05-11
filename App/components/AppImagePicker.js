@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
+import { v4 as uuidv4 } from "uuid";
 
 // Mobile fullscreen viewer
 import ImageViewer from "react-native-image-zoom-viewer";
@@ -34,8 +35,11 @@ function AppImagePicker({
   // Picker imagini
   const pickImage = async () => {
     try {
+      // console.log("MediaType:", ImagePicker.MediaType);
+      // console.log("MediaTypeOptions:", ImagePicker.MediaTypeOptions);
       const result = await ImagePicker.launchImageLibraryAsync({
-        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        mediaTypes:  ImagePicker.MediaType?.Images ??
+                      ImagePicker.MediaTypeOptions.Images,
         allowsMultipleSelection: true,
         selectionLimit: maxImages - images.length,
         quality: 0.9,
@@ -43,8 +47,8 @@ function AppImagePicker({
 
       if (!result.canceled) {
         const newImages = result.assets.map((asset, index) => {
-          const fileName = `${namePrefix}_${getNowForFileName()}_${index}.jpg`;
-          const safeName = fileName.replace(/[\r\n]/g, " "); //Enter delete from names that form the file name
+          const fileName = `${namePrefix}_${getNowForFileName()}___${uuidv4()}.jpg`;
+          const safeName = fileName.replace(/[\r\n]/g, " "); //ENTER delete from names that form the file name
           const imgObj = {
             uri: asset.uri,
             name: safeName,

@@ -61,17 +61,12 @@ const styles = StyleSheet.create({
     borderBottomWidth: 5,
     borderColor: colors.buttonBackGroundSecondary,
     borderRadius: 10,
-    marginLeft: 5,
-    marginRight: 5,
+    margin: 5,
     paddingLeft: 5,
     paddingRight: 5,
     zIndex: 1000,
     elevation: 1000,
-    // ...(Platform.OS === "web" && {
-    //   position: "sticky",
-    //   top: 0,
-    //   zIndex: 100,
-    // }),
+   
   },
   content: {
     flex: 1,
@@ -79,5 +74,6 @@ const styles = StyleSheet.create({
   scrollContent: {},
   footer: {
     //backgroundColor: "white",
+    
   },
 });

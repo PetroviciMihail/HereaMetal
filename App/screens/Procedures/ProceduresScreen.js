@@ -8,7 +8,7 @@ import AppText from "../../components/AppText";
 import colors from "../../config/colors";
 import Screen from "../../components/Screen";
 import AppPicker from "../../components/AppPicker";
-import { types } from "../../config/types";
+import { item_types } from "../../config/item_types";
 import AppPickerWithoutModal from "../../components/AppPickerWithoutModal";
 
 function ProceduresScreen({ navigation }) {
@@ -60,7 +60,7 @@ function ProceduresScreen({ navigation }) {
             Proceduri la rând
           </AppText>
           <AppPickerWithoutModal
-            items={[{ label: "Toate", value: null }, ...types]}
+            items={[{ label: "Toate", value: null }, ...item_types]}
             selectedValue={selectedType}
             onSelectValue={(item) => setSelectedType(item)}
             placeholder="Tip articol"

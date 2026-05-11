@@ -8,6 +8,8 @@ import AppButton from "../../components/AppButton";
 import { AppForm, AppFormField, SubmitButton } from "../../components/forms";
 import * as Yup from "yup";
 import { editProcedure } from "../../network/procedures";
+import AppImageViewer from "../../components/AppImageViewer";
+import DeleteButton from "../../components/DeleteButton";
 
 const validationSchema = Yup.object().shape({
   date_in: Yup.date(),
@@ -35,6 +37,7 @@ function FinishedProcedureScreen({ route, navigation }) {
   };
 
   const handleEditProcedure = async (values) => {
+
     let data = values;
     data.id = route.params.id;
     console.log("\n datele care pleaca la server");
@@ -43,6 +46,19 @@ function FinishedProcedureScreen({ route, navigation }) {
     if (err) {
       Alert.alert("Eroare server: ", err);
     } else if (response.status == 200) navigation.pop(2);
+  };
+
+  const handleProcedureDelete = async () => {
+    const data = {
+      id: route.params.id,
+    };
+    const [response, err] = await deleteProcedure(data);
+    if (err) {
+      Alert.alert("Eroare server: ", err);
+    } else {
+      console.log(response.data);
+      navigation.pop(1);
+    }
   };
 
   return (
@@ -57,21 +73,37 @@ function FinishedProcedureScreen({ route, navigation }) {
           <TypeLabel type={route.params.type} />
         </View>
         <View style={styles.horizontalSeparator} />
-
-        <View style={{ flex: 1 }}>
+        <View style={{ justifyContent: "space-between", flexDirection: "row", alignItems: "center" }}>
           <AppText>Cost: {route.params.cost}</AppText>
-          <View style={styles.horizontalSeparator} />
-          <AppText>
-            Data de intrare: {route.params.date_in.slice(0, 10)}
-          </AppText>
-          <AppText>Detalii intrare: {route.params.details_in}</AppText>
-          <View style={styles.horizontalSeparator} />
-          <AppText>
-            Data de iesire: {route.params.date_out.slice(0, 10)}{" "}
-          </AppText>
-          <AppText>Detalii iesire: {route.params.details_out}</AppText>
+          <DeleteButton
+            onPress={() => handleProcedureDelete()}
+            alertMessage={"Sigur vrei sa stergi procedura?"}
+          />
         </View>
+
       </View>
+      <View style={styles.detailsContainer}>
+        <AppText>
+          Data de intrare: {route.params.date_in.slice(0, 10)}
+        </AppText>
+        <View style={styles.horizontalSeparator} />
+        <AppText>Detalii intrare: {route.params.details_in}</AppText>
+        {route.params.images[0] && (
+          <AppImageViewer images={route.params.images} initialIndex={0} in_out="IN" />
+        )}
+
+      </View>
+      <View style={styles.detailsContainer}>
+        <AppText>
+          Data de iesire: {route.params.date_out.slice(0, 10)}{" "}
+        </AppText>
+        <View style={styles.horizontalSeparator} />
+        <AppText>Detalii iesire: {route.params.details_out}</AppText>
+        {route.params.images[0] && (
+          <AppImageViewer images={route.params.images} initialIndex={0} in_out="OUT" />
+        )}
+      </View>
+
 
       {showForm && (
         <AppForm
@@ -140,7 +172,9 @@ function FinishedProcedureScreen({ route, navigation }) {
 const styles = StyleSheet.create({
   detailsContainer: {
     backgroundColor: colors.coldWhite,
-    padding: 5,
+    borderColor: colors.blueish_black,
+    borderWidth: 1,
+    padding: 20,
     borderRadius: 5,
     elevation: 3,
     margin: 5,

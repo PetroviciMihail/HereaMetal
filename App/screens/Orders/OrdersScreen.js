@@ -26,8 +26,8 @@ function OrdersScreen({ navigation }) {
             : [],
           waitingDays: Math.floor(
             (new Date() - new Date(item.date_in)) / (1000 * 60 * 60 * 24) +
-              (item.emergency_factor - 1) +
-              (item.importance - 1),
+              (item.emergency_factor ) +
+              (item.importance ),
           ),
         };
       });
@@ -71,10 +71,14 @@ function OrdersScreen({ navigation }) {
             onChangeText={(newText) => {
               setSearch(newText);
             }}
+            
           />
         </>
       }
     >
+   
+      
+        
       <FlatList
         data={filteredData}
         renderItem={({ item }) => (

@@ -5,6 +5,7 @@ import { View, StyleSheet, FlatList } from "react-native";
 import { getProcedureTitlesForType } from "../../network/procedureTitles";
 import ProcedureTitleCard from "../../components/ProcedureTitleCard";
 import Screen from "../../components/Screen";
+import AppText from "../../components/AppText";
 
 function ProceduresPickScreen({ navigation, route }) {
   console.log(
@@ -31,6 +32,7 @@ function ProceduresPickScreen({ navigation, route }) {
   return (
     <>
       <Screen>
+        {procedureTitles.length>0?
         <FlatList
           data={procedureTitles}
           renderItem={({ item }) => (
@@ -55,7 +57,7 @@ function ProceduresPickScreen({ navigation, route }) {
             />
           )}
           keyExtractor={(item) => item.id}
-        />
+        />:<AppText style={{textAlign:"center",paddingTop:50}}>Nu exista proceduri pentu tipul de articol {route.params.type} </AppText>}
       </Screen>
     </>
   );

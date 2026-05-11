@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { View, TouchableOpacity, StyleSheet, Platform } from "react-native";
 import DateTimePicker from "@react-native-community/datetimepicker";
@@ -18,9 +18,15 @@ const formatDate = (d) => {
   return `${year}-${month}-${day}`;
 };
 
-function AppDatePicker({ value, onSelectValue, icon, style }) {
+function AppDatePicker({ value, onSelectValue, icon, style, ...otherProps }) {
   const [date, setDate] = useState(value ?? new Date());
   const [show, setShow] = useState(false);
+
+  useEffect(() => {
+    if (value) {
+      onSelectValue(formatDate(value));
+    }
+  }, []);
 
   const onChangeMobile = (event, selectedDate) => {
     setShow(Platform.OS === "ios"); // pe iOS rămâne deschis
@@ -40,7 +46,7 @@ function AppDatePicker({ value, onSelectValue, icon, style }) {
   return (
     <View style={[styles.wrapper, style]}>
       <AppText style={{ fontSize: 20, marginTop: 7, marginBottom: -6 }}>
-        {"    "}Data de intrare:
+        {"    "}{otherProps.placeholder}
       </AppText>
       <TouchableOpacity
         style={styles.container}

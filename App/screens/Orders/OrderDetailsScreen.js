@@ -40,7 +40,8 @@ function OrderDetailsScreen({ navigation, route }) {
           (item) =>
             item.procedures_done === item.procedures_total &&
             item.procedures_total != 0,
-        );
+        )||false;
+      console.log(allComplete);
       setAllCompleted(allComplete);
       setItems(response.data);
     }
@@ -140,14 +141,15 @@ function OrderDetailsScreen({ navigation, route }) {
           style={{ height: 1, backgroundColor: colors.primary, margin: 5 }}
         />
         <AppText>Adaugata la : {route.params.date_in.slice(0, 10)}</AppText>
-        <AppText style={styles.factortext}>
-          Factor de urgenta: {route.params.emergency_factor} (+zile)
+         <AppText style={styles.factortext}>
+          Factor de pret: {route.params.price_factor} ( sugestie )
         </AppText>
         <AppText style={styles.factortext}>
-          Factor de pret: {route.params.price_factor} (sugestie)
+          Factor de urgenta: {route.params.emergency_factor} (+ zile de asteptare)
         </AppText>
+       
         <AppText style={styles.factortext}>
-          Importanta client: {route.params.importance - 1} (+zile in asteptare)
+          Importanta client: {route.params.importance } (+ zile in asteptare)
         </AppText>
       </View>
       <AppText style={styles.middleText}>CLIENT:</AppText>

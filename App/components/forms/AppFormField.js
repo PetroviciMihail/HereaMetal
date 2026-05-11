@@ -20,7 +20,7 @@ function AppFormField({ name, submitOnEnter, ...otherProps }) {
     <>
       <AppText style={{ fontSize: 20, marginTop: 7, marginBottom: -6 }}>
         {"    "}
-        {otherProps.placeholder}
+        {values[name] != "" && otherProps.placeholder}
       </AppText>
       <AppTextInput
         onBlur={() => setFieldTouched(name)}
@@ -29,11 +29,11 @@ function AppFormField({ name, submitOnEnter, ...otherProps }) {
         returnKeyType={submitOnEnter ? "done" : "next"}
         onSubmitEditing={submitOnEnter ? handleSubmit : undefined}
         {...otherProps}
-        // autoCapitalize="none"
-        // autoCorrect={false}
-        // icon=
-        // keyboardType=
-        // placeholder=
+      // autoCapitalize="none"
+      // autoCorrect={false}
+      // icon=
+      // keyboardType=
+      // placeholder=
       />
       <FormErrorMessage error={errors[name]} visible={touched[name]} />
     </>

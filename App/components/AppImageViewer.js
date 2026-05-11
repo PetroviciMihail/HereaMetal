@@ -18,11 +18,15 @@ import "react-photo-view/dist/react-photo-view.css";
 import AppText from "./AppText";
 import { BASE_URL } from "../network/utils";
 
-function AppImageViewer({ images }) {
+function AppImageViewer({ images, in_out }) {
   const [visible, setVisible] = useState(false); // mobile modal
   const [currentIndex, setCurrentIndex] = useState(0);
+  const finalImages = in_out
+    ? images.filter(img => img?.in_out === in_out)
+    : images;
+
   console.log("din image viewer");
-  images.map((img, index) => console.log(`${BASE_URL}/${img.file_path}`));
+  finalImages.map((img, index) => console.log(`${BASE_URL}/${img.file_path}`));
 
   const openViewer = (index) => {
     setCurrentIndex(index);
@@ -33,14 +37,15 @@ function AppImageViewer({ images }) {
 
   return (
     <View>
-      <AppText style={styles.label}>
-        {"   "} Poze ({images.length})
-      </AppText>
-
+      {finalImages.length > 0 &&
+        <AppText style={styles.label}>
+          {"   "} Poze ({finalImages.length})
+        </AppText>
+      }
       <View style={styles.container}>
         {Platform.OS === "web" ? (
           <PhotoProvider>
-            {images.map((img, index) => (
+            {finalImages.map((img, index) => (
               <View key={img.uri || img.file_path} style={styles.imageWrapper}>
                 <PhotoView
                   src={`${BASE_URL}/${img.file_path}` || img.file_path}
@@ -56,7 +61,7 @@ function AppImageViewer({ images }) {
             ))}
           </PhotoProvider>
         ) : (
-          images.map((img, index) => (
+          finalImages.map((img, index) => (
             <View key={img.uri || img.file_path} style={styles.imageWrapper}>
               <TouchableOpacity onPress={() => openViewer(index)}>
                 <Image
@@ -79,7 +84,7 @@ function AppImageViewer({ images }) {
           onRequestClose={() => setVisible(false)}
         >
           <ImageViewer
-            imageUrls={images.map((img) => ({
+            imageUrls={finalImages.map((img) => ({
               url: `${BASE_URL}/${img.file_path}` || img.file_path,
             }))}
             index={currentIndex}

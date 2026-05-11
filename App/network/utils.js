@@ -30,43 +30,19 @@ async function buildFormData(values, images) {
 
   return formData;
 }
-function buildFormDataForMobile(values, images) {
-  const formData = new FormData();
 
-  Object.entries(values).forEach(([k, v]) => {
-    formData.append(k, v);
-  });
-
-  for (let i = 0; i < images.length; i++) {
-    const img = images[i];
-    if (Platform.OS !== "web") {
-      // MOBILE → merge direct obiectul
-
-      formData.append("images", {
-        uri: img.uri,
-        name: img.name || `image_${Date.now()}_${i}.jpg`,
-        type: img.type || "image/jpeg",
-      });
-    }
-  }
-
-  return formData;
-}
 
 function getNowForFileName(procedureTitle, type = "in") {
   const now = new Date();
 
-  // ISO simplu: 2026-03-30T12:34:56.789Z
-  const iso = now.toISOString();
+  const year = now.getFullYear();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  const day = String(now.getDate()).padStart(2, "0");
 
-  // păstrează doar data și ora:minut
-  let dateTime = iso.slice(0, 16); // "2026-03-30T12:34"
+  const hours = String(now.getHours()).padStart(2, "0");
+  const minutes = String(now.getMinutes()).padStart(2, "0");
 
-  // înlocuiește caractere problematice pentru filename
-  dateTime = dateTime.replace(/[:T]/g, "_"); // "2026-03-30_12_34"
-
-  // construit numele final
-  return `${dateTime}`;
+  return `${year}-${month}-${day}___${hours}-${minutes}`;
 }
-const BASE_URL = "http://192.168.1.2:3000";
+const BASE_URL = "http://10.140.47.105:3000";
 export { buildFormData, getNowForFileName, BASE_URL };

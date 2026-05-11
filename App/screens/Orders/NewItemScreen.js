@@ -6,7 +6,7 @@ import { AppForm, AppFormField, SubmitButton } from "../../components/forms";
 
 import { addNewItem } from "../../network/items";
 import AppFormPicker from "../../components/forms/AppFormPicker";
-import { types } from "../../config/types";
+import { item_types } from "../../config/item_types";
 
 const validationSchema = Yup.object().shape({
   type: Yup.string()
@@ -43,18 +43,12 @@ function NewItemScreen({ navigation, route }) {
         validationSchema={validationSchema}
       >
         <AppFormPicker
-          items={types}
+          items={item_types}
           placeholder="Selecteaza tipul"
           name="type"
           icon="ballot"
         />
-        {/* <AppFormField
-          autoCorrect={false}
-          autoCapitalize="none"
-          
-          placeholder="Tip: chiuloasa/ bloc/ arbore/ diverse"
-          name="type"
-        /> */}
+       
         <AppFormField
           autoCorrect={false}
           icon="rename-box"
@@ -72,7 +66,7 @@ function NewItemScreen({ navigation, route }) {
           autoCorrect={false}
           keyboardType="numeric"
           icon="resize"
-          placeholder="Factor de marime/ cilindree"
+          placeholder="Factor de marime/ cilindree cm3"
           name="size_factor"
         />
         <SubmitButton title="Adauga articolul" />

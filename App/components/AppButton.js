@@ -47,7 +47,7 @@ function AppButton({ title, onPress, style, alertMessage }) {
 
 const styles = StyleSheet.create({
   button: {
-    flex: 1,
+    //flex: 1,
     backgroundColor: colors.buttonBackGroundPrimary,
     borderRadius: 15,
     justifyContent: "center",

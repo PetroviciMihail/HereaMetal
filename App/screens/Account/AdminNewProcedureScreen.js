@@ -6,7 +6,7 @@ import { AppForm, AppFormField, SubmitButton } from "../../components/forms";
 import { addNewProcedureTitle } from "../../network/procedureTitles";
 import AppText from "../../components/AppText";
 import AppFormPicker from "../../components/forms/AppFormPicker";
-import { types } from "../../config/types";
+import { item_types } from "../../config/item_types";
 
 const validationSchema = Yup.object().shape({
   type: Yup.string()
@@ -49,7 +49,7 @@ function AdminNewProcedureScreen({ navigation }) {
         validationSchema={validationSchema}
       >
         <AppFormPicker
-          items={types}
+          items={item_types}
           placeholder="Selecteaza tipul"
           name="type"
           icon="ballot"

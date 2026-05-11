@@ -22,10 +22,7 @@ async function addNewProcedureToItemId(data, images) {
     console.log(e.response.data);
     err = e.response.data;
   } finally {
-    console.log(
-      "am TRIMIT REQUEST CĂTRE:",
-      `http://192.168.1.2:3000/procedures`,
-    );
+
     return [response, err];
   }
 }
@@ -46,18 +43,20 @@ async function getProceduresForItemId(id) {
   }
 }
 
-async function completeProcedure(data) {
+async function completeProcedure(data, images) {
   let err,
     response = undefined;
   data.completed_by_user = await storage.get("user_name");
-  console.log("data in api complte procedure:");
-  console.log(data);
+
+  const formData = await buildFormData(data, images);
   try {
     response = await axiosClient({
       method: "post",
       url: `/procedures/complete`,
-      data: data,
+      data: formData,
+      headers: { "Content-Type": "multipart/form-data" },
     });
+    console.log(formData);
   } catch (e) {
     console.log(e.response.data);
     err = e.response.data;

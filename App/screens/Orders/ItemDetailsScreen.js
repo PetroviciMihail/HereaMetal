@@ -15,7 +15,8 @@ import Screen from "../../components/Screen";
 function ItemDetailsScreen({ navigation, route }) {
   //folosit din route.params: id de item, type, id de order, title, details, size-factor
   const [itemProcedures, setItemProcedures] = useState([]);
-
+  console.log("--- ITEM DETAILS SCREEN ----");
+  console.log(route.params);
   const getItemProceduresFromApi = async (itemId) => {
     const [response, err] = await getProceduresForItemId(itemId);
     if (err) {
@@ -108,11 +109,16 @@ function ItemDetailsScreen({ navigation, route }) {
                 onPress={() =>
                   item.date_out
                     ? navigation.navigate("Finished Procedure Screen", {
-                        ...item,
-                      })
+                      ...item,
+                    })
                     : navigation.navigate("Procedure Details Finish Screen", {
-                        ...item,
-                      })
+                      order_id: route.params.order_id,
+                      item_id: route.params.id,
+                      item_title: route.params.title,
+                      procedure_id: item.id,
+                      procedure_title: item.title,
+                      ...item,   //route.params
+                    })
                 }
               />
             )}

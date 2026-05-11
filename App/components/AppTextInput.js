@@ -5,13 +5,13 @@ import colors from "../config/colors";
 
 import AutoGrowTextInput from "./AutoGrowTextInput";
 
-function AppTextInput({ icon, ...otherProps }) {
+function AppTextInput({ icon, style, ...otherProps }) {
   return (
     <View style={styles.container}>
       {icon && (
         <MaterialCommunityIcons name={icon} size={35} style={styles.icon} />
       )}
-      <AutoGrowTextInput style={styles.textInput} {...otherProps} />
+      <AutoGrowTextInput style={[styles.textInput, style]} {...otherProps} />
     </View>
   );
 }
@@ -28,13 +28,14 @@ const styles = StyleSheet.create({
     margin: 3,
     borderColor: colors.primary,
     borderWidth: 1,
+    
   },
   textInput: {
     color: colors.textPrimary,
-    flex: 1,
     textWrap: "wrap",
     fontSize: 25,
     fontFamily: "Roboto",
+    
   },
   icon: {
     color: colors.lightBrown,

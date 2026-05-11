@@ -34,9 +34,9 @@ function NewProcedureScreen({ navigation, route }) {
     data.item_title = route.params.item_title;
     data.procedure_title_id = route.params.procedure_title_id;
     data.procedure_title = route.params.procedure_title;
+    data.in_out = "IN";
     data.added_by_user = "Default user";
-    console.log("images de dinainte de a le adauga");
-    console.log(images);
+
     const [response, err] = await addNewProcedureToItemId(data, images);
     if (err) {
       showError("Eroare server: ", err);
@@ -58,6 +58,7 @@ function NewProcedureScreen({ navigation, route }) {
         initialValues={procedureInitialValues}
         onSubmit={(values) => handleNewProcedure(values)}
         validationSchema={validationSchema}
+        enableReinitialize={false}
       >
         <AppFormDatePicker
           name="date_in"

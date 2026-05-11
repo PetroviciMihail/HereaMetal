@@ -52,7 +52,10 @@ function NewOrderScreen({ navigation, route }) {
           placeholder="Titlu"
           name="title"
         />
-        <AppFormDatePicker name="date_in" icon="calendar" />
+        <AppFormDatePicker 
+        name="date_in" 
+        icon="calendar" 
+        />
 
         <AppFormField
           autoCorrect={false}

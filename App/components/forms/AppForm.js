@@ -8,13 +8,14 @@ function AppForm({
   validationSchema,
   children,
   style,
+  enableReinitialize= true,
 }) {
   return (
     <Formik
       initialValues={initialValues}
       onSubmit={onSubmit}
       validationSchema={validationSchema}
-      enableReinitialize
+      enableReinitialize={enableReinitialize}
     >
       {/* {() => <View style={style}>{children}</View>} */}
       {(formikProps) => (

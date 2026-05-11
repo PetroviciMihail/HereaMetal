@@ -91,5 +91,6 @@ const styles = StyleSheet.create({
     borderWidth: 0,
     borderColor: "#ccc",
     borderRadius: 8,
+    
   },
 });
