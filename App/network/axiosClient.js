@@ -6,7 +6,6 @@ import { BASE_URL } from "./utils";
 const axiosClient = axios.create({
   baseURL: BASE_URL,
   timeout: 5000,
-
 });
 
 // Interceptor care adaugă automat JWT-ul la fiecare request

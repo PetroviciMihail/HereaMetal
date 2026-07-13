@@ -20,6 +20,7 @@ const validationSchema = Yup.object().shape({
 
 function ProcedureDetailsFinishScreen({ route, navigation }) {
   const [images, setImages] = useState([]);
+  const [showForm, setShowForm] = useState(false);
 
   console.log("----------------procedure details finish screen params: \n");
   console.log(route.params);
@@ -59,7 +60,26 @@ function ProcedureDetailsFinishScreen({ route, navigation }) {
   };
 
   return (
-    <Screen>
+    <Screen
+      footer={
+        !showForm && (
+          <AppButton
+            title={showForm ? "Anulează" : "Spre finalizare"}
+            style={{
+              backgroundColor: colors.buttonBackGroundSecondary,
+            }}
+            onPress={() => {
+              setShowForm(!showForm);
+            }}
+          />
+        )
+      }
+    >
+      {
+        // de adaugat in containerul de details butonul de edit, si sa se deshcida in container formul de edit, dupa edit reload alea alea.
+        //ar trebui refolosit containerul asta, pus un tag de intrare iesire, in vreun colt, si pun flag pentur ce butoane sa aiba, si ce sa faca butoanele de finalizare din ele sau stergere,
+        //ce call de functii sa aiba
+      }
       <View style={styles.detailsContainer}>
         <View style={styles.topContainer}>
           <AppText
@@ -87,34 +107,48 @@ function ProcedureDetailsFinishScreen({ route, navigation }) {
           <AppImageViewer images={route.params.images} initialIndex={0} />
         )}
       </View>
-      <AppForm
-        initialValues={procedureInitialValues}
-        onSubmit={(values) => handleFinishProcedure(values)}
-        validationSchema={validationSchema}
-        enableReinitialize={false}
-      >
-        <AppImagePicker
-          images={images}
-          onChangeImages={setImages}
-          namePrefix={`out_order_${route.params.order_id}_item_${route.params.item_title}_${route.params.procedure_title}_out`}
-        />
-        <AppFormDatePicker
-          name="date_out"
-          icon="calendar"
-          placeholder="Data de finalizare"
-        />
-        <AppFormField
-          autoCorrect={false}
-          icon="card-text"
-          placeholder="Detalii finalizare"
-          name="details_out"
-        />
+      {showForm && (
+        <AppForm
+          initialValues={procedureInitialValues}
+          onSubmit={(values) => handleFinishProcedure(values)}
+          validationSchema={validationSchema}
+          enableReinitialize={false}
+        >
+          <AppImagePicker
+            images={images}
+            onChangeImages={setImages}
+            namePrefix={`out_order_${route.params.order_id}_item_${route.params.item_title}_${route.params.procedure_title}_out`}
+          />
+          <AppFormDatePicker
+            name="date_out"
+            icon="calendar"
+            placeholder="Data de finalizare"
+          />
+          <AppFormField
+            autoCorrect={false}
+            icon="card-text"
+            placeholder="Detalii finalizare"
+            name="details_out"
+          />
 
-        <SubmitButton
-          title="Finalizeaza procedura"
-          alertMessage={"Confirma finalizarea procedurii"}
-        />
-      </AppForm>
+          <SubmitButton
+            title="Finalizeaza procedura"
+            alertMessage={"Confirma finalizarea procedurii"}
+          />
+          {showForm && (
+            <AppButton
+              title={showForm ? "Anulează" : "Spre finalizare"}
+              style={{
+                backgroundColor: colors.buttonBackGroundSecondary,
+              }}
+              onPress={() => {
+                setShowForm(!showForm);
+              }}
+            />
+          )}
+        </AppForm>
+      )}
+      <View style={{ justifyContent: "flex-end" }}></View>
     </Screen>
   );
 }

@@ -31,7 +31,6 @@ async function buildFormData(values, images) {
   return formData;
 }
 
-
 function getNowForFileName(procedureTitle, type = "in") {
   const now = new Date();
 
@@ -44,5 +43,5 @@ function getNowForFileName(procedureTitle, type = "in") {
 
   return `${year}-${month}-${day}___${hours}-${minutes}`;
 }
-const BASE_URL = "http://10.140.47.105:3000";
+const BASE_URL = "http://192.168.1.7:3000";
 export { buildFormData, getNowForFileName, BASE_URL };

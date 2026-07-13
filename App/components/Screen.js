@@ -55,6 +55,7 @@ const styles = StyleSheet.create({
     width: "100%",
     alignSelf: "center",
     maxWidth: Platform.OS === "web" ? MAX_WIDTH : "100%",
+    //backgroundColor: "red",
   },
   header: {
     backgroundColor: "#c9f5f4",
@@ -66,7 +67,6 @@ const styles = StyleSheet.create({
     paddingRight: 5,
     zIndex: 1000,
     elevation: 1000,
-   
   },
   content: {
     flex: 1,
@@ -74,6 +74,5 @@ const styles = StyleSheet.create({
   scrollContent: {},
   footer: {
     //backgroundColor: "white",
-    
   },
 });
